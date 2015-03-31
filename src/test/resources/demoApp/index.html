@@ -1,0 +1,86 @@
+<html ng-app="mbms">
+	<head>
+		<title>Demo Application | Main</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+	</head>
+	<script src="./lib/angular.min.js"></script>
+	<script>
+		var app = angular.module('mbms', []);
+
+		app.controller('backlogC', ['$scope', '$http', function($scope, $http) {
+		  $scope.estimationValues = [0, 1, 2, 3, 5, 8, 13, 20, 40, 100, "infinite"];
+		  $scope.itemCounter = 0; 		  	
+		  $scope.newItemName = "";
+		  $scope.newItemEstimate = 0;
+		  $scope.backlog = [];
+		  $scope.addBacklogItem = function () {
+		    $scope.backlog.push({id: $scope.itemCounter++, name: $scope.newItemName, estimate: $scope.newItemEstimate});
+		  };
+		  $scope.removeBacklogItem = function (id) {
+			for (var i = 0; i < $scope.backlog.length; i++) {
+				if ($scope.backlog[i].id === id) {
+				    $scope.backlog.splice(i, 1);
+				}
+			    }
+			};
+		 $scope.requestItems = function () {
+			    $http.get('http://localhost:8888/mbmsMock/items').
+				success(function(data) {
+				    $scope.backlog = data;
+				})
+			};
+		  }]);
+	</script>
+	<body>
+		<div class="container">
+		<div class="page-header">		
+			<h1>backlog management system</h1>
+		</div>
+		
+		<nav class="navbar navbar-default">
+		  <div class="container-fluid">
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav">
+			<li class="active"><a href="index.html">Main</a></li>
+			<li><a href="page2.html" id="Page 2">Page 2</a></li>
+			<li><a href="about.html" id="About">About</a></li>
+		      </ul>
+		    </div>
+		  </div>
+		</nav>
+		
+		<div ng-controller="backlogC">
+			<h2>add backlog item:</h2>		
+			<form class="form" role="form">			
+			<div class="form-group">				
+				<label for="name">name</label>
+				<input id="name" class="form-control" ng-model="newItemName" type="text"/>
+			</div>
+			<div class="form-group">
+				<label for="estimate">estimate</label>
+				<select id="estimate" class="form-control" ng-model="newItemEstimate">
+					<option ng-repeat="estimationValue in estimationValues">{{estimationValue}}</option>			
+				</select>
+			</div>
+				<button type="button" class="btn btn-primary" ng-click="addBacklogItem()">add</button>
+			</form>
+	
+			<h2>backlog item list:</h2>
+			<div class="form-group">
+				<label for="filter">filter</label>
+				<input id="filter" class="form-control" ng-model="filterText" type="text">
+			</div>
+			<br/><br/>
+			<table class="table table-striped">
+			  <tr ng-repeat="item in backlog | filter: filterText">
+				<td>{{item.id}}</td>			    
+				<td>{{item.name}}</td>
+			  	<td>{{item.estimate}}</td>
+			  	<td><button type="button" class="btn btn-primary" ng-click="removeBacklogItem(item.id)">delete</button></td>
+			  </tr>
+			</table>
+		</div>
+		</div>
+	</body>
+</html>

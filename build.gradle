@@ -1,0 +1,33 @@
+apply plugin: "groovy"
+apply plugin: 'java'
+
+description = "Geb Workshop"
+version = '1.0'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    testCompile.transitive = true
+}
+
+dependencies {
+    testCompile "org.codehaus.groovy:groovy-all:2.4.1"
+
+    testCompile "org.gebish:geb-spock:0.10.0"
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+
+    testCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.45.0"
+    testCompile "org.seleniumhq.selenium:selenium-chrome-driver:2.45.0"
+    testRuntime "org.seleniumhq.selenium:selenium-support:2.43.1"
+}
+
+test {
+    systemProperties "geb.build.reportsDir": "$reportsDir/geb"
+
+    // Change this path to where the demo app is located on your file system.
+    systemProperties "geb.build.baseUrl": "file:///D:/testtage/demoApp/"
+}
