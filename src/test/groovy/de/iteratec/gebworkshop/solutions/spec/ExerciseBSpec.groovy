@@ -1,11 +1,12 @@
 package de.iteratec.gebworkshop.solutions.spec
 
 import de.iteratec.gebworkshop.solutions.pages.MainPage
+import de.iteratec.gebworkshop.solutions.pages.Page2
 import geb.Page
 import geb.spock.GebReportingSpec
 import spock.lang.Ignore
 
-class BacklogPageSpec extends GebReportingSpec {
+class ExerciseBSpec extends GebReportingSpec {
 
     /*
      Exercise 1: Write a test case that checks if adding an item to the
@@ -14,15 +15,15 @@ class BacklogPageSpec extends GebReportingSpec {
     */
 
     def "Adding an item to the backlog works"() {
-        given:
+        given: "I am on the main page"
         to MainPage
 
-        when:
+        when: "I add a new item with name 'my item' and estimation 20"
         setName "my item"
         selectEstimate 20
         clickAddButton()
 
-        then:
+        then: "I expect the new item to appear in the item list"
         backlogItemListIsOfSize 1
         backlogItemListContains "my item"
     }
@@ -83,16 +84,16 @@ class BacklogPageSpec extends GebReportingSpec {
     */
 
     def "Removing an item from the backlog works"() {
-        given:
+        given: "I am at the main page and add a new item"
         to MainPage
         setName "my item"
         selectEstimate 20
         clickAddButton()
 
-        when:
+        when: "I remove the item by pressing 'remove' in the item list"
         removeBacklogItem "my item"
 
-        then:
+        then: "I expect the item list to be empty"
         !backlogItemListIsVisible()
     }
 
@@ -139,5 +140,43 @@ class BacklogPageSpec extends GebReportingSpec {
         then:
         backlogItemListIsOfSize 2
     }
+
+
+    /*
+    Exercise 6: You can extend your test cases to include several when: then: blocks. This can be
+    used to implement scenarios. Write a test case for a simple scenario: Add a backlog item, change to
+    the about page, then come back to the main page. (You will see that the added backlog item is gone
+    because there is no persistence in this demo app. This is not what the user expects so your test
+    should fail).
+   */
+
+    @Ignore
+    def "Scenario 1"() {
+        given: "I am at the main page"
+        to MainPage
+
+        when: "I add a new item"
+        setName "my item"
+        selectEstimate 20
+        clickAddButton()
+
+        then: "I expect the item to appear in the item list"
+        backlogItemListIsOfSize 1
+        backlogItemListContains "my item"
+
+        when: "I then to page 2"
+        clickMenu "Page 2"
+
+        then: "I expect to be at page 2"
+        at Page2
+
+        when: "I go back to the main page"
+        clickMenu "Main"
+
+        then: "I expect the added item to still be there"
+        at MainPage
+        backlogItemListIsOfSize 1
+    }
+
 
 }

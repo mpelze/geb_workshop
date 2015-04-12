@@ -9,4 +9,8 @@ class About extends Page {
     static at = {
         title == "Demo Application | About"
     }
+
+    static content = {
+        text { $("div", id: "maindiv").find("p").text() }
+    }
 }

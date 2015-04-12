@@ -1,17 +1,17 @@
 package de.iteratec.gebworkshop.exercise.spec
 
-import de.iteratec.gebworkshop.exercise.pages.FirstPage
+import de.iteratec.gebworkshop.exercise.pages.DemoPage
 import geb.spock.GebReportingSpec
 
-class FirstSpec extends GebReportingSpec {
+class DemoSpec extends GebReportingSpec {
 
 
     def "visiting the demo app start page works"() {
         when:
-        to FirstPage
+        to DemoPage
 
         then:
-        at FirstPage
+        at DemoPage
     }
 
 }

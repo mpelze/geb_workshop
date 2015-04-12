@@ -29,5 +29,5 @@ test {
     systemProperties "geb.build.reportsDir": "$reportsDir/geb"
 
     // Change this path to where the demo app is located on your file system.
-    systemProperties "geb.build.baseUrl": "file:///D:/testtage/demoApp/"
+    systemProperties "geb.build.baseUrl": "file:///D:/git/geb_workshop/src/test/resources/demoApp/"
 }

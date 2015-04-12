@@ -2,7 +2,7 @@ package de.iteratec.gebworkshop.exercise.pages
 
 import geb.Page
 
-class FirstPage extends Page{
+class DemoPage extends Page{
 
     static url = "index.html"
 
